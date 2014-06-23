@@ -43,35 +43,35 @@
 
 (defun translate0 (word)
   (let ((pstring (get-and-parse-json (format fmt
-											 keyfrom
-											 key
-											 word))))
-	(if (equal pstring nil)
-		nil
-	  (let ((explains    (plist-get (plist-get pstring :basic) :explains))
-			(us-phonetic (plist-get (plist-get pstring :basic) :us-phonetic))
-			(uk-phonetic (plist-get (plist-get pstring :basic) :uk-phonetic)))
-		(cond ((equal explains nil) nil)
-			  ((or (equal us-phonetic nil) (equal uk-phonetic nil)) explains)
-			  (t (vconcat (vector (format "us: [%s]" us-phonetic)
-								  (format "uk: [%s]" uk-phonetic))
-						  explains)))))))
+                                             keyfrom
+                                             key
+                                             word))))
+    (if (equal pstring nil)
+        nil
+      (let ((explains    (plist-get (plist-get pstring :basic) :explains))
+            (us-phonetic (plist-get (plist-get pstring :basic) :us-phonetic))
+            (uk-phonetic (plist-get (plist-get pstring :basic) :uk-phonetic)))
+        (cond ((equal explains nil) nil)
+              ((or (equal us-phonetic nil) (equal uk-phonetic nil)) explains)
+              (t (vconcat (vector (format "us: [%s]" us-phonetic)
+                                  (format "uk: [%s]" uk-phonetic))
+                          explains)))))))
 
 (defun translate1 (trans)
   (if (equal trans nil)
-	  "N/A"
-	(let ((res nil))
-	  (mapcar (lambda (exp)
-				(setq res (concat res (concat exp "\n"))))
-			  trans)
-	  (substring res 0 -1))))
+      "N/A"
+    (let ((res nil))
+      (mapcar (lambda (exp)
+                (setq res (concat res (concat exp "\n"))))
+              trans)
+      (substring res 0 -1))))
 
 (defun translate ()
   (interactive)
   (let ((word (get-current-word)))
-	(popup-tip 
-	 (concat word
-			 "\n"
-			 (translate1 (translate0 word))))))
+    (popup-tip 
+     (concat word
+             "\n"
+             (translate1 (translate0 word))))))
 
 (provide 'youdao)

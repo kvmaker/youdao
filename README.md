@@ -1,4 +1,4 @@
 youdao
 ======
 
-a font end of youdao translate for emacs 
+a front end of youdao translate for emacs 
