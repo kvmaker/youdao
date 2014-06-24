@@ -1,4 +1,4 @@
 youdao
 ======
 
-a front end of youdao translate for emacs 
+a frontend of youdao translate for emacs. 

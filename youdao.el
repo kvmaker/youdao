@@ -1,4 +1,4 @@
-;; youdao.el a translate font for youdao.
+;; youdao.el a translate fontend for youdao translate.
 ;; Copyright (C) 2004 kvmaker@gmail.com
 ;; 
 ;; Version 0.1
@@ -57,21 +57,21 @@
                                   (format "uk: [%s]" uk-phonetic))
                           explains)))))))
 
-(defun translate1 (trans)
-  (if (equal trans nil)
-      "N/A"
-    (let ((res nil))
-      (mapcar (lambda (exp)
-                (setq res (concat res (concat exp "\n"))))
-              trans)
-      (substring res 0 -1))))
+(defun trans-format (word explains)
+  (concat word 
+          "\n"
+          (if (equal explains nil)
+              "N/A"
+            (let ((res nil))
+              (mapcar (lambda (exp)
+                        (setq res (concat res (concat exp "\n"))))
+                      explains)
+              (substring res 0 -1)))))
 
 (defun translate ()
   (interactive)
   (let ((word (get-current-word)))
-    (popup-tip 
-     (concat word
-             "\n"
-             (translate1 (translate0 word))))))
+    (let ((explains (translate0 word)))
+      (popup-tip (trans-format word explains)))))
 
 (provide 'youdao)
