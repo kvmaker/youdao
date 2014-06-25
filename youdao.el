@@ -41,6 +41,11 @@
     (json-read-from-string 
      (decode-coding-string (get-json url) 'utf-8))))
 
+(defun plist-get2 (plist &rest keys)
+  (dolist (key keys)
+    (setq plist (plist-get plist key)))
+  plist)
+
 (defun translate0 (word)
   (let ((pstring (get-and-parse-json (format fmt
                                              keyfrom
@@ -48,9 +53,9 @@
                                              word))))
     (if (equal pstring nil)
         nil
-      (let ((explains    (plist-get (plist-get pstring :basic) :explains))
-            (us-phonetic (plist-get (plist-get pstring :basic) :us-phonetic))
-            (uk-phonetic (plist-get (plist-get pstring :basic) :uk-phonetic)))
+      (let ((explains    (plist-get2 pstring :basic :explains))
+            (us-phonetic (plist-get2 pstring :basic :us-phonetic))
+            (uk-phonetic (plist-get2 pstring :basic :uk-phonetic)))
         (cond ((equal explains nil) nil)
               ((or (equal us-phonetic nil) (equal uk-phonetic nil)) explains)
               (t (vconcat (vector (format "us: [%s]" us-phonetic)
